@@ -1,0 +1,186 @@
+{
+  "cli": {
+    "description": "Habit Coach: ghi lại những gì thật sự đã làm, xem bạn bám sát kế hoạch đến đâu, và rà soát kế hoạch vào mỗi Chủ nhật."
+  },
+  "arg": {
+    "lang": "Ngôn ngữ: ja, en hoặc vi",
+    "text": "Việc bạn đã làm, bằng lời của bạn",
+    "habit": "Mã thói quen trong kế hoạch",
+    "kind": "start, done, skip hoặc note (mặc định: start nếu có --habit, ngược lại là note)",
+    "at": "Giờ việc xảy ra, định dạng 24 giờ HH:MM (mặc định: bây giờ)",
+    "date": "Ngày, YYYY-MM-DD",
+    "tiny": "Chỉ làm phiên bản siêu nhỏ",
+    "excused": "Bỏ qua vì nghỉ ngơi, ốm hoặc đi xa, không phải vì lơ là",
+    "json": "Xuất JSON cho máy đọc",
+    "id": "Mã bản ghi hiện ra lúc ghi",
+    "week": "Tuần ISO, ví dụ 2026-W41",
+    "write": "Lưu báo cáo vào reviews/<tuần>.md",
+    "apply": "Ghi các thay đổi đề xuất thành kế hoạch tuần sau",
+    "from": "Ngày đầu tiên phiên bản này có hiệu lực, YYYY-MM-DD",
+    "weeks": "Xuất bao nhiêu tuần (mặc định: theo hồ sơ)",
+    "out": "Đường dẫn đầu ra (mặc định: calendar/habit-coach.ics)",
+    "format": "file ics, hoặc json ra màn hình",
+    "moment": "Chọn sẵn loại lời nhắc",
+    "help": "Hiện trợ giúp này rồi thoát",
+    "version": "Hiện phiên bản rồi thoát"
+  },
+  "cmd": {
+    "log": "Ghi một hoạt động: bạn thật sự đã làm gì, lúc nào",
+    "void": "Hủy một bản ghi theo mã",
+    "today": "Kế hoạch hôm nay, tiến độ và một lời nhắc",
+    "report": "Báo cáo mức bám sát kế hoạch theo tuần",
+    "review": "Rà soát Chủ nhật: báo cáo cùng các đề xuất chỉnh kế hoạch",
+    "plan": "Xem, kiểm tra hoặc tạo phiên bản mới cho kế hoạch tuần",
+    "plan_show": "In kế hoạch hiện tại",
+    "plan_check": "Kiểm tra kế hoạch và liệt kê lời khuyên",
+    "plan_new_version": "Bắt đầu phiên bản kế hoạch mới từ một ngày (lưu bản cũ vào lịch sử)",
+    "ics": "Xuất kế hoạch thành file .ics cho Google Calendar, hoặc JSON",
+    "nudge": "Một lời nhắc hoặc lời động viên đúng lúc này"
+  },
+  "err": {
+    "prefix": "lỗi",
+    "bad_date": "'{value}' không phải ngày hợp lệ (dùng YYYY-MM-DD).",
+    "bad_week": "'{value}' không phải tuần ISO (dùng YYYY-Www, ví dụ 2026-W41).",
+    "habit_required": "Loại '{kind}' cần có --habit.",
+    "tiny_kind": "--tiny chỉ dùng với start và done.",
+    "excused_kind": "--excused chỉ dùng với skip.",
+    "empty_note": "Ghi chú cần có nội dung.",
+    "bad_time": "'{value}' không phải giờ hợp lệ (dùng HH:MM, 24 giờ).",
+    "date_needs_time": "--date cần đi kèm --at HH:MM.",
+    "future_time": "{value} là thời điểm trong tương lai. Muốn ghi cho ngày trước đó, thêm --date YYYY-MM-DD.",
+    "unknown_habit": "Không có thói quen '{habit}'. Các thói quen trong kế hoạch ngày đó: {habits}.",
+    "no_such_event": "Không có bản ghi [{id}] trong hai tuần qua (thêm --date để tìm ngày khác).",
+    "no_plan": "Chưa có kế hoạch.",
+    "version_not_later": "Chưa ghi kế hoạch: kế hoạch hiện tại đã bắt đầu từ {current}, phiên bản mới phải bắt đầu muộn hơn (bạn yêu cầu {requested}).",
+    "bad_weeks": "--weeks phải là số nguyên từ 1 đến {max}."
+  },
+  "log": {
+    "saved": "Đã ghi [{id}] {time} — {text}",
+    "duplicate": "Đã có bản ghi này rồi [{id}] {time} — {text}"
+  },
+  "void": {
+    "done": "Đã hủy [{id}] {text}"
+  },
+  "weekday": {
+    "0": "Thứ Hai",
+    "1": "Thứ Ba",
+    "2": "Thứ Tư",
+    "3": "Thứ Năm",
+    "4": "Thứ Sáu",
+    "5": "Thứ Bảy",
+    "6": "Chủ nhật"
+  },
+  "status": {
+    "on_time": "đúng giờ ({actual})",
+    "late": "trễ {minutes} phút ({actual})",
+    "off_window": "làm ngoài khung giờ dự kiến ({actual})",
+    "excused": "ngày nghỉ (có lý do)",
+    "skipped": "bỏ qua",
+    "skipped_reason": "bỏ qua: {reason}",
+    "missed": "chưa làm",
+    "tiny": "bản siêu nhỏ",
+    "anchor_mark": "(mốc)",
+    "pending_upcoming": "sắp tới",
+    "pending_due": "đến giờ rồi, bắt đầu thì nhắn mình nhé",
+    "pending_overdue": "đã quá giờ bắt đầu nhưng vẫn còn kịp",
+    "pending_passed": "đã quá khung giờ — làm trong hôm nay vẫn được tính, nhưng điểm thấp hơn"
+  },
+  "today": {
+    "no_plan": "Chưa có kế hoạch. Hãy kể cho Claude mục tiêu và một ngày bình thường của bạn, Claude sẽ dựng tuần giúp bạn.",
+    "rest_day": "Hôm nay không có mục nào trong kế hoạch.",
+    "progress": "Tiến độ hôm nay: {pct} {bar} ({done}/{total})",
+    "streaks": "🔥 Chuỗi liên tiếp: {streaks}",
+    "streak_item": "{habit} {count} lần liền",
+    "review_due": "📝 Đến hạn rà soát tuần {week}, hãy nhờ Claude chạy giúp."
+  },
+  "report": {
+    "title": "Tuần {week} ({start} – {end})",
+    "no_data": "Tuần này chưa có dữ liệu để chấm điểm.",
+    "overall": "Mức bám sát kế hoạch: {pct} {bar}",
+    "vs_last": "so với tuần trước: {delta} điểm (tuần trước {last})",
+    "counts": "Đã làm {done}/{counted} · đúng giờ {on_time} · còn chờ {pending} · nghỉ có lý do {excused}",
+    "habit_line": "- {habit}: làm {done}/{planned}, đúng giờ {on_time}, điểm {score}"
+  },
+  "review": {
+    "proposal": {
+      "reduce_duration": "{habit}: mới làm {done}/{planned} lần. Giảm từ {old} xuống {new} phút để dễ bắt đầu hơn.",
+      "drop_day": "{habit}: với mức này vẫn chỉ làm {done}/{planned} lần. Bỏ {day}, giữ lại những ngày làm được.",
+      "shift_time": "{habit}: thực tế bạn làm vào khoảng {new} chứ không phải {old}. Dời kế hoạch cho khớp thói quen thật.",
+      "level_up": "{habit}: {weeks} tuần liền làm rất tốt. Nâng từ {old} lên {new} phút.",
+      "flag": "{habit}: mới làm {done}/{planned} lần và không thể thu nhỏ hơn nữa. Hãy cùng xem nó còn phù hợp với bạn không."
+    },
+    "best_streak": "🔥 Chuỗi dài nhất: {habit}, {count} lần liền",
+    "reward": "🎁 Mở khóa phần thưởng: {reward}",
+    "proposals_title": "Đề xuất thay đổi, có hiệu lực từ {date}:",
+    "no_changes": "Không cần chỉnh kế hoạch. Cứ tiếp tục như vậy.",
+    "deferred_title": "Để dành cho lần sau (mỗi tuần chỉ chỉnh vài thứ là đủ):",
+    "notes_placeholder": "## Ghi chú của Claude\n\n(Claude viết phần phân tích, lời động viên và những gì đã thay đổi ở đây.)",
+    "written": "Đã lưu bản rà soát vào {path}",
+    "nothing_to_apply": "Không có gì để áp dụng: không đề xuất nào làm thay đổi kế hoạch.",
+    "applied": "Đã áp dụng {count} thay đổi: kế hoạch mới có hiệu lực từ {date}. Bản cũ được lưu trong plan/history/."
+  },
+  "plan": {
+    "check_empty": "Chưa có kế hoạch.",
+    "check_ok": "Kế hoạch hợp lệ: {count} thói quen, có hiệu lực từ {date}.",
+    "new_version": "Phiên bản kế hoạch mới có hiệu lực từ {date}: sửa {path}, rồi chạy `python3 habit.py ics`.",
+    "warn": {
+      "too_many": "Có {count} thói quen được chấm điểm. Quá {max} thì hiếm ai giữ nổi một tháng, nên cân nhắc bớt.",
+      "no_anchor": "{habit}: chưa có mốc kích hoạt. Nó nối tiếp thói quen nào đang có sẵn?",
+      "no_tiny": "{habit}: chưa có phiên bản siêu nhỏ cho những ngày tệ."
+    }
+  },
+  "ics": {
+    "written": "Đã ghi {count} sự kiện ({weeks} tuần từ {first}) vào {path}. Hãy nhập vào Google Calendar (Cài đặt → Nhập & xuất)."
+  },
+  "calendar": {
+    "anchor": "Mốc kích hoạt: {anchor}",
+    "tiny": "Ngày tệ? Chỉ cần làm: {tiny}",
+    "log_it": "Khi bắt đầu, nhắn cho Claude nhé."
+  },
+  "nudge": {
+    "identity_default": "Mình là người giữ lời hứa với chính mình",
+    "why_default": "để làm chủ những ngày của mình",
+    "tiny_default": "chỉ hai phút thôi",
+    "anchor_line": "Mốc kích hoạt của bạn: {anchor}",
+    "comeback": {
+      "0": "Hôm qua lỡ {habit}? Không sao, bỏ một lần chỉ là sự cố. Hôm nay chỉ cần làm bản siêu nhỏ: {tiny}",
+      "1": "Đừng bỏ hai lần liền. Hôm nay lại đến lượt {habit}, và chỉ cần {tiny} là chuỗi vẫn còn nguyên.",
+      "2": "Hôm qua đã qua, hôm nay còn nguyên. Bắt đầu {habit} thật nhỏ ({tiny}) là bạn quay lại đường ray ngay."
+    },
+    "pre": {
+      "0": "Sắp đến giờ {habit} rồi. Bắt đầu bằng bản siêu nhỏ: {tiny}.",
+      "1": "Tiếp theo là {habit}. Đừng lên kế hoạch cho cả buổi, chỉ cần {tiny} rồi xem cảm giác thế nào.",
+      "2": "{habit} sắp tới. Bắt đầu là nhắn mình ngay, mình sẽ ghi lại giúp bạn."
+    },
+    "milestone": {
+      "0": "{habit} đã {streak} lần liền! Mỗi lần làm là một phiếu bầu cho con người bạn đang trở thành: {identity}.",
+      "1": "Chuỗi {streak} của {habit}. Sợi xích này đang khó đứt rồi, ngày mai hãy bảo vệ nó nhé.",
+      "2": "{streak} lần! Đây không còn là may mắn nữa mà là thói quen đang thành hình. {habit} đang trở thành một phần của bạn."
+    },
+    "done": {
+      "0": "Đã ghi. Hôm nay xong {done}/{total} mục ({pct}%). Giữ đà này nhé.",
+      "1": "Tuyệt, xong {habit} rồi. Thêm một phiếu bầu cho: {identity}.",
+      "2": "Làm được còn hơn hoàn hảo. {habit} được tính, và đã {streak} lần liền."
+    },
+    "evening": {
+      "0": "Tối rồi: hôm nay xong {done}/{total} mục ({pct}%). Còn {remaining} mục mở, bản siêu nhỏ cũng được tính.",
+      "1": "Trước khi hết ngày: xong {done}/{total} mục. Nếu còn việc nào chưa làm, chọn việc dễ nhất và làm đúng hai phút.",
+      "2": "Điểm hôm nay: {pct}%. Dù thế nào thì ngày mai cũng bắt đầu lại từ đầu, và ghi chép trung thực đã là một chiến thắng."
+    },
+    "morning": {
+      "0": "Chào buổi sáng! Hôm nay có {total} mục. Nhớ vì sao bạn bắt đầu: {why}",
+      "1": "Một ngày mới. Bạn là người luôn nói: {identity}. Hãy bước bước nhỏ đầu tiên.",
+      "2": "Hôm nay có {total} mục. Đừng nhắm tới hoàn hảo, hãy nhắm tới việc có mặt."
+    },
+    "sunday": {
+      "0": "Tuần này bạn bám sát {pct}% kế hoạch. Hãy làm cho tuần sau dễ giữ hơn.",
+      "1": "Hết tuần: {pct}%. Mục tiêu là tiến bộ chứ không phải hoàn hảo. Mình sẽ chỉnh kế hoạch cho hợp với cuộc sống thật của bạn.",
+      "2": "Đến giờ rà soát Chủ nhật. Tuần này đạt {pct}%: cùng xem điều gì hiệu quả và điều gì cần đơn giản hóa."
+    },
+    "generic": {
+      "0": "Nhớ vì sao bạn bắt đầu: {why}",
+      "1": "{identity}. Một hành động nhỏ hôm nay là bằng chứng.",
+      "2": "Bước nhỏ lặp lại luôn thắng kế hoạch lớn. Bước siêu nhỏ tiếp theo là gì?"
+    }
+  }
+}

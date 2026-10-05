@@ -1,0 +1,33 @@
+# A starting point, not a prescription. Four habits is plenty for week one.
+# `scored: false` marks anchors (train, work start): tracked so the review can see your real day, but not in the percentage.
+effective_from: 2026-10-05
+habits:
+  - id: board-train
+    name: Lên tàu đi làm
+    days: weekdays
+    start: "07:40"
+    duration_min: 40
+    scored: false
+  - id: morning-read
+    name: Đọc sách trên tàu
+    days: weekdays
+    start: "07:45"
+    duration_min: 25
+    weight: 2
+    anchor: sau khi ngồi xuống ghế trên tàu
+    tiny: đọc một trang
+  - id: start-work
+    name: Bắt đầu làm việc
+    days: weekdays
+    start: "09:00"
+    duration_min: 15
+    scored: false
+  - id: evening-walk
+    name: Đi bộ buổi tối
+    days: [mon, wed, fri]
+    start: "19:30"
+    duration_min: 30
+    weight: 2
+    keystone: true
+    anchor: sau khi ăn tối xong
+    tiny: đi bộ quanh khu nhà 5 phút

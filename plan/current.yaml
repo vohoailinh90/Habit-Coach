@@ -1,0 +1,4 @@
+# Weekly plan. Quote times ("07:30"). Prefer `python3 habit.py plan ...` and the Sunday review over hand edits.
+# Empty on purpose: tell Claude your goals and your typical day and it will fill this in (the plan-week skill).
+effective_from: 2026-10-05
+habits: []

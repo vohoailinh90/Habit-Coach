@@ -1,0 +1,186 @@
+{
+  "cli": {
+    "description": "Habit Coach: 実際にやったことを記録し、計画をどれだけ守れたかを確認し、毎週日曜日に計画を見直します。"
+  },
+  "arg": {
+    "lang": "言語: ja、en、vi",
+    "text": "やったことを自分の言葉で",
+    "habit": "計画にある習慣のID",
+    "kind": "start、done、skip、note（既定: --habit があれば start、なければ note）",
+    "at": "実際の時刻。24時間表記の HH:MM（既定: 現在）",
+    "date": "日付 YYYY-MM-DD",
+    "tiny": "ミニ版だけ行った",
+    "excused": "休息・体調不良・移動によるスキップで、さぼりではない",
+    "json": "機械可読な JSON で出力",
+    "id": "記録時に表示されたイベントID",
+    "week": "ISO 週。例: 2026-W41",
+    "write": "レポートを reviews/<週>.md に保存",
+    "apply": "提案された変更を来週の計画として書き込む",
+    "from": "このバージョンが有効になる最初の日 YYYY-MM-DD",
+    "weeks": "何週間分を出力するか（既定: プロフィールの設定）",
+    "out": "出力先（既定: calendar/habit-coach.ics）",
+    "format": "ics ファイル、または標準出力に json",
+    "moment": "リマインドの種類を指定",
+    "help": "このヘルプを表示して終了",
+    "version": "バージョンを表示して終了"
+  },
+  "cmd": {
+    "log": "活動を記録する: 実際に何をいつやったか",
+    "void": "ID を指定して記録を取り消す",
+    "today": "今日の計画、進捗、ひとことリマインド",
+    "report": "週ごとの計画達成レポート",
+    "review": "日曜レビュー: レポートと計画変更の提案",
+    "plan": "週間計画の表示・検査・バージョン作成",
+    "plan_show": "現在の計画を表示",
+    "plan_check": "計画を検証してアドバイスを表示",
+    "plan_new_version": "指定日から新しい計画バージョンを開始（旧版は履歴へ）",
+    "ics": "計画を Google カレンダー用 .ics または JSON に出力",
+    "nudge": "今この瞬間のリマインドや励ましの言葉"
+  },
+  "err": {
+    "prefix": "エラー",
+    "bad_date": "'{value}' は日付ではありません（YYYY-MM-DD で指定してください）。",
+    "bad_week": "'{value}' は ISO 週ではありません（YYYY-Www 形式、例: 2026-W41）。",
+    "habit_required": "'{kind}' には --habit が必要です。",
+    "tiny_kind": "--tiny は start と done でのみ使えます。",
+    "excused_kind": "--excused は skip でのみ使えます。",
+    "empty_note": "メモには内容が必要です。",
+    "bad_time": "'{value}' は時刻ではありません（24時間表記の HH:MM で指定してください）。",
+    "date_needs_time": "--date には --at HH:MM も必要です。",
+    "future_time": "{value} は未来の時刻です。以前の日に記録するには --date YYYY-MM-DD を付けてください。",
+    "unknown_habit": "習慣 '{habit}' はありません。その日の計画にある習慣: {habits}。",
+    "no_such_event": "過去2週間に記録 [{id}] はありません（別の日を探すには --date を指定してください）。",
+    "no_plan": "まだ計画がありません。",
+    "version_not_later": "計画を書き込めませんでした。現在の計画はすでに {current} から始まっており、新しいバージョンはそれより後に開始する必要があります（指定: {requested}）。",
+    "bad_weeks": "--weeks は 1 から {max} までの整数で指定してください。"
+  },
+  "log": {
+    "saved": "記録しました [{id}] {time} — {text}",
+    "duplicate": "すでに記録済みです [{id}] {time} — {text}"
+  },
+  "void": {
+    "done": "取り消しました [{id}] {text}"
+  },
+  "weekday": {
+    "0": "月曜日",
+    "1": "火曜日",
+    "2": "水曜日",
+    "3": "木曜日",
+    "4": "金曜日",
+    "5": "土曜日",
+    "6": "日曜日"
+  },
+  "status": {
+    "on_time": "予定どおり（{actual}）",
+    "late": "{minutes}分遅れ（{actual}）",
+    "off_window": "予定の時間帯の外で実施（{actual}）",
+    "excused": "お休みの日（理由あり）",
+    "skipped": "スキップ",
+    "skipped_reason": "スキップ: {reason}",
+    "missed": "未実施",
+    "tiny": "ミニ版",
+    "anchor_mark": "（目印）",
+    "pending_upcoming": "これから",
+    "pending_due": "開始の時間です。始めたら教えてください",
+    "pending_overdue": "開始時刻を過ぎましたが、まだ間に合います",
+    "pending_passed": "予定の時間帯を過ぎました。今日中に行えば記録されますが、スコアは下がります"
+  },
+  "today": {
+    "no_plan": "まだ計画がありません。目標と普段の1日を Claude に伝えると、1週間の計画を作ります。",
+    "rest_day": "今日は予定がありません。",
+    "progress": "今日の進捗: {pct} {bar}（{done}/{total}）",
+    "streaks": "🔥 連続記録: {streaks}",
+    "streak_item": "{habit} {count}回連続",
+    "review_due": "📝 {week} の週次レビューの時期です。Claude に実行を頼んでください。"
+  },
+  "report": {
+    "title": "{week} 週（{start} – {end}）",
+    "no_data": "今週はまだ採点できるデータがありません。",
+    "overall": "計画の達成度: {pct} {bar}",
+    "vs_last": "先週との差: {delta} ポイント（先週 {last}）",
+    "counts": "実施 {done}/{counted} · 予定どおり {on_time} · 未確定 {pending} · 休み（理由あり）{excused}",
+    "habit_line": "- {habit}: {done}/{planned} 実施、予定どおり {on_time}、スコア {score}"
+  },
+  "review": {
+    "proposal": {
+      "reduce_duration": "{habit}: {planned}回中{done}回の実施でした。始めやすいように {old} 分から {new} 分に縮めます。",
+      "drop_day": "{habit}: この長さでも {planned}回中{done}回でした。{day} をやめて、続けられる日を残します。",
+      "shift_time": "{habit}: 実際は {old} ではなく {new} ごろに行っています。計画を実際の生活に合わせます。",
+      "level_up": "{habit}: {weeks}週連続で好調です。{old} 分から {new} 分に増やします。",
+      "flag": "{habit}: {planned}回中{done}回で、これ以上は小さくできません。今の生活に合っているか、一緒に考えましょう。"
+    },
+    "best_streak": "🔥 最長の連続記録: {habit}（{count}回連続）",
+    "reward": "🎁 ごほうびを解放: {reward}",
+    "proposals_title": "{date} から有効になる変更案:",
+    "no_changes": "計画の変更は不要です。このまま続けましょう。",
+    "deferred_title": "次回に回した変更（1週間に変えるのは少しで十分です）:",
+    "notes_placeholder": "## Claude からのメモ\n\n（ここに Claude が分析、励まし、変更内容を書きます。）",
+    "written": "レビューを {path} に保存しました",
+    "nothing_to_apply": "適用するものはありません。計画を変える提案がありません。",
+    "applied": "{count} 件の変更を適用しました。新しい計画は {date} から有効です。旧版は plan/history/ に保存されています。"
+  },
+  "plan": {
+    "check_empty": "まだ計画がありません。",
+    "check_ok": "計画は有効です: 習慣 {count} 件、{date} から有効。",
+    "new_version": "{date} から有効な新しい計画バージョンを作成しました。{path} を編集してから `python3 habit.py ics` を実行してください。",
+    "warn": {
+      "too_many": "採点対象の習慣が {count} 件あります。{max} 件を超えると1か月続くことは稀なので、減らすことを検討してください。",
+      "no_anchor": "{habit}: まだ目印（きっかけ）がありません。どの既存の習慣のあとに行いますか？",
+      "no_tiny": "{habit}: 調子の悪い日用のミニ版がありません。"
+    }
+  },
+  "ics": {
+    "written": "{count} 件の予定（{first} から {weeks} 週間分）を {path} に書き出しました。Google カレンダーの［設定］→［インポート/エクスポート］で取り込んでください。"
+  },
+  "calendar": {
+    "anchor": "きっかけ: {anchor}",
+    "tiny": "調子が悪い日は、これだけ: {tiny}",
+    "log_it": "始めたら Claude にメッセージを送ってください。"
+  },
+  "nudge": {
+    "identity_default": "私は自分との約束を守る人間だ",
+    "why_default": "自分の毎日を自分でコントロールするため",
+    "tiny_default": "たった2分だけ",
+    "anchor_line": "きっかけ: {anchor}",
+    "comeback": {
+      "0": "昨日は {habit} をお休みしましたか？大丈夫、1回の休みはただの出来事です。今日はミニ版だけで十分です: {tiny}",
+      "1": "2回連続で休まないことが大切です。今日また {habit} の番です。{tiny} だけでも連続記録は続きます。",
+      "2": "昨日は過ぎたこと、今日はまっさらです。{habit} を小さく（{tiny}）始めれば、すぐ軌道に戻れます。"
+    },
+    "pre": {
+      "0": "そろそろ {habit} の時間です。まずはミニ版から: {tiny}。",
+      "1": "次は {habit} です。全部を考えず、{tiny} だけやって、そのあとの気分を見てみましょう。",
+      "2": "{habit} がもうすぐです。始めたらすぐメッセージをください。記録しておきます。"
+    },
+    "milestone": {
+      "0": "{habit} が {streak} 回連続です！1回ごとに、なりたい自分への一票になります: {identity}。",
+      "1": "{habit} の連続記録は {streak} 回。鎖が切れにくくなってきたので、明日も守りましょう。",
+      "2": "{streak} 回連続！もう偶然ではなく、習慣が形になってきています。{habit} があなたの一部になりつつあります。"
+    },
+    "done": {
+      "0": "記録しました。今日は {total} 件中 {done} 件完了（{pct}%）。この調子です。",
+      "1": "お見事です、{habit} が終わりました。また一票増えました: {identity}。",
+      "2": "完璧より完了です。{habit} は記録され、{streak} 回連続になりました。"
+    },
+    "evening": {
+      "0": "夜のチェックです。今日は {total} 件中 {done} 件完了（{pct}%）。あと {remaining} 件ありますが、ミニ版でもカウントされます。",
+      "1": "今日が終わる前に: {total} 件中 {done} 件完了です。残りがあれば、いちばん簡単なものを2分だけやってみましょう。",
+      "2": "今日のスコアは {pct}% です。どんな結果でも明日はまた新しく始まりますし、正直に記録できたこと自体が前進です。"
+    },
+    "morning": {
+      "0": "おはようございます！今日の予定は {total} 件です。始めた理由を思い出しましょう: {why}",
+      "1": "新しい1日です。あなたはこう言える人です: {identity}。最初の小さな一歩を踏み出しましょう。",
+      "2": "今日は {total} 件です。完璧を目指さず、顔を出すことを目指しましょう。"
+    },
+    "sunday": {
+      "0": "今週は計画の {pct}% を守れました。来週はもっと続けやすくしましょう。",
+      "1": "週の終わりです: {pct}%。目標は完璧ではなく前進です。計画を実際の生活に合わせて調整します。",
+      "2": "日曜レビューの時間です。今週は {pct}%。うまくいったことと、簡単にしたいことを一緒に見ていきましょう。"
+    },
+    "generic": {
+      "0": "始めた理由を思い出しましょう: {why}",
+      "1": "{identity}。今日の小さな行動がその証明になります。",
+      "2": "小さな一歩の繰り返しは、大きな計画に勝ります。次のミニ一歩は何でしょう？"
+    }
+  }
+}

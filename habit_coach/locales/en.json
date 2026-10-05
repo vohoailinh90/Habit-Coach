@@ -1,0 +1,186 @@
+{
+  "cli": {
+    "description": "Habit Coach: log what really happened, see how closely you followed the plan, review the plan every Sunday."
+  },
+  "arg": {
+    "lang": "Language: ja, en or vi",
+    "text": "What you did, in your own words",
+    "habit": "Habit id from the plan",
+    "kind": "start, done, skip or note (default: start with --habit, otherwise note)",
+    "at": "Time it happened, 24-hour HH:MM (default: now)",
+    "date": "Day, YYYY-MM-DD",
+    "tiny": "Only the tiny version was done",
+    "excused": "The skip is rest, illness or travel, not a lapse",
+    "json": "Machine-readable JSON output",
+    "id": "Event id shown when it was logged",
+    "week": "ISO week, e.g. 2026-W41",
+    "write": "Save the report to reviews/<week>.md",
+    "apply": "Write the proposed changes as next week's plan",
+    "from": "First day the version applies, YYYY-MM-DD",
+    "weeks": "How many weeks to export (default: from the profile)",
+    "out": "Output path (default: calendar/habit-coach.ics)",
+    "format": "ics file, or json on stdout",
+    "moment": "Force a kind of nudge",
+    "help": "Show this help and exit",
+    "version": "Show the version and exit"
+  },
+  "cmd": {
+    "log": "Record an activity: what you actually did, and when",
+    "void": "Cancel a log entry by its id",
+    "today": "Today's plan, progress and a nudge",
+    "report": "Weekly adherence report",
+    "review": "Sunday review: the report plus proposed plan changes",
+    "plan": "Show, check or version the weekly plan",
+    "plan_show": "Print the current plan",
+    "plan_check": "Validate the plan and list advice",
+    "plan_new_version": "Start a new plan version from a date (archives the old one)",
+    "ics": "Export the plan as a Google Calendar .ics file, or as JSON",
+    "nudge": "A reminder or a word of motivation for right now"
+  },
+  "err": {
+    "prefix": "error",
+    "bad_date": "'{value}' is not a date (use YYYY-MM-DD).",
+    "bad_week": "'{value}' is not an ISO week (use YYYY-Www, e.g. 2026-W41).",
+    "habit_required": "--habit is required for '{kind}'.",
+    "tiny_kind": "--tiny only applies to start and done.",
+    "excused_kind": "--excused only applies to skip.",
+    "empty_note": "A note needs some text.",
+    "bad_time": "'{value}' is not a time (use 24-hour HH:MM).",
+    "date_needs_time": "--date needs --at HH:MM.",
+    "future_time": "{value} is in the future. For an earlier day, add --date YYYY-MM-DD.",
+    "unknown_habit": "Unknown habit '{habit}'. Habits in the plan that day: {habits}.",
+    "no_such_event": "No event [{id}] in the last two weeks (pass --date to search elsewhere).",
+    "no_plan": "There is no plan yet.",
+    "version_not_later": "Plan not written: the current plan already starts on {current}, and a new version must start later (asked for {requested}).",
+    "bad_weeks": "--weeks must be a whole number from 1 to {max}."
+  },
+  "log": {
+    "saved": "Logged [{id}] {time} — {text}",
+    "duplicate": "Already logged [{id}] {time} — {text}"
+  },
+  "void": {
+    "done": "Voided [{id}] {text}"
+  },
+  "weekday": {
+    "0": "Monday",
+    "1": "Tuesday",
+    "2": "Wednesday",
+    "3": "Thursday",
+    "4": "Friday",
+    "5": "Saturday",
+    "6": "Sunday"
+  },
+  "status": {
+    "on_time": "on time ({actual})",
+    "late": "{minutes} min late ({actual})",
+    "off_window": "done outside the planned window ({actual})",
+    "excused": "rest day (excused)",
+    "skipped": "skipped",
+    "skipped_reason": "skipped: {reason}",
+    "missed": "not done",
+    "tiny": "tiny version",
+    "anchor_mark": "(anchor)",
+    "pending_upcoming": "coming up",
+    "pending_due": "time to start — message me when you do",
+    "pending_overdue": "past the start time — still doable",
+    "pending_passed": "past its window — it still counts if you do it today, at a lower score"
+  },
+  "today": {
+    "no_plan": "No plan yet. Tell Claude your goals and your typical day, and it will build your week.",
+    "rest_day": "Nothing scheduled today.",
+    "progress": "Today's progress: {pct} {bar} ({done}/{total})",
+    "streaks": "🔥 Streaks: {streaks}",
+    "streak_item": "{habit} {count} in a row",
+    "review_due": "📝 The weekly review for {week} is due — ask Claude to run it."
+  },
+  "report": {
+    "title": "Week {week} ({start} – {end})",
+    "no_data": "No scored data this week yet.",
+    "overall": "Plan adherence: {pct} {bar}",
+    "vs_last": "vs last week: {delta} points (last week {last})",
+    "counts": "Done {done} of {counted} · on time {on_time} · pending {pending} · excused {excused}",
+    "habit_line": "- {habit}: {done}/{planned} done, {on_time} on time, score {score}"
+  },
+  "review": {
+    "proposal": {
+      "reduce_duration": "{habit}: only {done} of {planned} done. Shrink it from {old} to {new} minutes so it is easy to start.",
+      "drop_day": "{habit}: still only {done} of {planned} done at this size. Drop {day} and keep the days that work.",
+      "shift_time": "{habit}: you really do it around {new}, not {old}. Move the plan to match your real routine.",
+      "level_up": "{habit}: {weeks} strong weeks in a row. Raise it from {old} to {new} minutes.",
+      "flag": "{habit}: only {done} of {planned} done and it cannot shrink further. Let's talk about whether it still fits."
+    },
+    "best_streak": "🔥 Best streak: {habit}, {count} in a row",
+    "reward": "🎁 Reward unlocked: {reward}",
+    "proposals_title": "Proposed changes, effective {date}:",
+    "no_changes": "No plan changes needed. Keep going as you are.",
+    "deferred_title": "Held back for later (a few edits a week is plenty):",
+    "notes_placeholder": "## Notes from Claude\n\n(Claude writes the analysis, the encouragement and what changed here.)",
+    "written": "Review saved to {path}",
+    "nothing_to_apply": "Nothing to apply: no proposal changes the plan.",
+    "applied": "Applied {count} change(s): the new plan is effective {date}. The old version is archived in plan/history/."
+  },
+  "plan": {
+    "check_empty": "No plan yet.",
+    "check_ok": "Plan OK: {count} habit(s), effective {date}.",
+    "new_version": "New plan version effective {date}: edit {path}, then run `python3 habit.py ics`.",
+    "warn": {
+      "too_many": "{count} scored habits. More than {max} rarely survive a month; consider fewer.",
+      "no_anchor": "{habit}: no anchor yet. Which existing routine does it follow?",
+      "no_tiny": "{habit}: no tiny version for the bad days."
+    }
+  },
+  "ics": {
+    "written": "Wrote {count} events ({weeks} week(s) from {first}) to {path}. Import it into Google Calendar (Settings → Import & export)."
+  },
+  "calendar": {
+    "anchor": "Cue: {anchor}",
+    "tiny": "Bad day? Do just this: {tiny}",
+    "log_it": "When you start, message Claude."
+  },
+  "nudge": {
+    "identity_default": "I keep the promises I make to myself",
+    "why_default": "to feel in control of my days",
+    "tiny_default": "just two minutes",
+    "anchor_line": "Your cue: {anchor}",
+    "comeback": {
+      "0": "Missed {habit} yesterday? That is fine, one miss is an accident. Today just do the tiny version: {tiny}",
+      "1": "Never miss twice. {habit} is due again today, and even {tiny} keeps the chain alive.",
+      "2": "Yesterday is gone and today is open. Start {habit} small ({tiny}) and you are back on track."
+    },
+    "pre": {
+      "0": "It is almost time for {habit}. Start with the tiny version: {tiny}.",
+      "1": "Next up: {habit}. Do not plan the whole thing, just {tiny}, then see how you feel.",
+      "2": "{habit} is coming up. Message me the moment you start and I will log it."
+    },
+    "milestone": {
+      "0": "{streak} in a row for {habit}! Every repetition is a vote for the person you are becoming: {identity}.",
+      "1": "Streak of {streak} for {habit}. The chain is getting hard to break, so protect it tomorrow.",
+      "2": "{streak}! That is no longer luck, it is a habit forming. {habit} is becoming part of you."
+    },
+    "done": {
+      "0": "Logged. {done} of {total} done today ({pct}%). Keep the momentum.",
+      "1": "Nice, {habit} is done. That is one more vote for: {identity}.",
+      "2": "Done beats perfect. {habit} counts, and it is {streak} in a row."
+    },
+    "evening": {
+      "0": "Evening check: {done} of {total} done today ({pct}%). {remaining} still open, and even the tiny version counts.",
+      "1": "Before the day ends: {done} of {total} done. If something is still open, pick the easiest one and do just two minutes.",
+      "2": "Today's score: {pct}%. Whatever it is, tomorrow starts fresh, and logging honestly is already a win."
+    },
+    "morning": {
+      "0": "Good morning! {total} items on today's plan. Remember why you started: {why}",
+      "1": "A new day. You are someone who says: {identity}. Take the first small step.",
+      "2": "{total} items today. Do not aim for perfect, aim for showing up."
+    },
+    "sunday": {
+      "0": "This week you followed {pct}% of your plan. Let's make next week easier to keep.",
+      "1": "Week's end: {pct}%. Progress is the goal, not perfection. I will fit the plan to your real life.",
+      "2": "Sunday review time. {pct}% this week: let's look at what worked and what to simplify."
+    },
+    "generic": {
+      "0": "Remember why you started: {why}",
+      "1": "{identity}. One small action today proves it.",
+      "2": "Small steps, repeated, beat big plans. What is the next tiny step?"
+    }
+  }
+}

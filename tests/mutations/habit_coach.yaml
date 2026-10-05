@@ -1,0 +1,264 @@
+# Mutation manifest: see scripts/mutation_check.py
+note: 'Each entry breaks one behavior and the named test must fail; a SURVIVED entry means the test guards nothing. Run: python3 scripts/mutation_check.py --all'
+mutations:
+- file: habit_coach/scoring.py
+  label: the early limit of the on-time window is exclusive
+  find: -habit.early_min <= offset <= habit.grace_min
+  replace: -habit.early_min < offset <= habit.grace_min
+  test: tests/test_plan_logs_scoring.py::test_timing_windows_have_exact_boundaries
+- file: habit_coach/scoring.py
+  label: the grace limit of the on-time window is exclusive
+  find: -habit.early_min <= offset <= habit.grace_min
+  replace: -habit.early_min <= offset < habit.grace_min
+  test: tests/test_plan_logs_scoring.py::test_timing_windows_have_exact_boundaries
+- file: habit_coach/scoring.py
+  label: the late limit is exclusive
+  find: habit.grace_min < offset <= habit.late_limit_min
+  replace: habit.grace_min < offset < habit.late_limit_min
+  test: tests/test_plan_logs_scoring.py::test_timing_windows_have_exact_boundaries
+- file: habit_coach/scoring.py
+  label: the tiny version scores like the full one
+  find: score = TIMING_SCORE[status] * (TINY_FACTOR if tiny else 1.0)
+  replace: score = TIMING_SCORE[status]
+  test: tests/test_plan_logs_scoring.py::test_the_tiny_version_counts_but_scores_less
+- file: habit_coach/scoring.py
+  label: one tiny entry makes the whole day tiny
+  find: tiny = all(e.tiny for e in completions)
+  replace: tiny = any(e.tiny for e in completions)
+  test: tests/test_plan_logs_scoring.py::test_the_tiny_version_counts_but_scores_less
+- file: habit_coach/scoring.py
+  label: the latest start decides the timing
+  find: 'first = min(completions, key=lambda e: e.ts)'
+  replace: 'first = max(completions, key=lambda e: e.ts)'
+  test: tests/test_plan_logs_scoring.py::test_the_earliest_start_decides_the_timing
+- file: habit_coach/scoring.py
+  label: an excused skip still counts against the score
+  find: '"excused" if excused else "skipped", 0.0, not excused'
+  replace: '"excused" if excused else "skipped", 0.0, True'
+  test: tests/test_plan_logs_scoring.py::test_a_skip_is_a_lapse_unless_it_is_excused
+- file: habit_coach/scoring.py
+  label: the day is not over until after its cutoff
+  find: 'if now >= day_bounds(day, profile)[1]:'
+  replace: 'if now > day_bounds(day, profile)[1]:'
+  test: tests/test_plan_logs_scoring.py::test_nothing_logged_is_pending_until_the_day_is_over
+- file: habit_coach/scoring.py
+  label: anchors count toward the percentage
+  find: scored = [r for r in rows if r.habit.scored and r.counted]
+  replace: scored = [r for r in rows if r.counted]
+  test: tests/test_plan_logs_scoring.py::test_the_weekly_percentage_is_weighted_and_ignores_anchors_pending_and_excused
+- file: habit_coach/scoring.py
+  label: the percentage ignores weight
+  find: 100 * sum(r.habit.weight * r.score for r in scored) / weight if weight else None
+  replace: 100 * sum(r.score for r in scored) / len(scored) if scored else None
+  test: tests/test_plan_logs_scoring.py::test_the_weekly_percentage_is_weighted_and_ignores_anchors_pending_and_excused
+- file: habit_coach/scoring.py
+  label: days that have not started are scored
+  find: 'if plan is None or day > logical_date(now, profile):'
+  replace: 'if plan is None:'
+  test: tests/test_plan_logs_scoring.py::test_future_days_and_days_before_the_plan_have_no_occurrences
+- file: habit_coach/logs.py
+  label: a voided entry still counts
+  find: 'live = {e.id: e for e in events if e.id not in voided}'
+  replace: 'live = {e.id: e for e in events}'
+  test: tests/test_plan_logs_scoring.py::test_voided_and_duplicated_lines_collapse
+- file: habit_coach/config.py
+  label: a 00:30 entry belongs to the calendar day, not the evening before
+  find: return (moment.astimezone(profile.tz) - timedelta(hours=profile.day_cutoff_hour)).date()
+  replace: return moment.astimezone(profile.tz).date()
+  test: tests/test_plan_logs_scoring.py::test_an_event_belongs_to_the_logical_day_not_the_calendar_day
+- file: habit_coach/config.py
+  label: an unquoted 10:30 is read as 630 sexagesimal minutes
+  find: 'first: [(tag, rx) for tag, rx in resolvers if tag != INT_TAG]'
+  replace: 'first: [(tag, rx) for tag, rx in resolvers]'
+  test: tests/test_plan_logs_scoring.py::test_unquoted_time_is_read_as_a_time_not_as_sexagesimal_minutes
+- file: habit_coach/plan.py
+  label: a bedtime after midnight is planned on the wrong day
+  find: return moment + timedelta(days=1) if habit.start.hour < profile.day_cutoff_hour else moment
+  replace: return moment
+  test: tests/test_plan_logs_scoring.py::test_a_bedtime_after_midnight_is_planned_on_the_next_calendar_day
+- file: habit_coach/plan.py
+  label: a new plan version may start on the same day as the old one
+  find: 'if plan.effective_from <= old.effective_from:'
+  replace: 'if plan.effective_from < old.effective_from:'
+  test: tests/test_plan_logs_scoring.py::test_a_new_version_must_start_later_than_the_current_one
+- file: habit_coach/plan.py
+  label: a plan takes effect the day after its effective_from
+  find: if p.effective_from <= day), None)
+  replace: if p.effective_from < day), None)
+  test: tests/test_plan_logs_scoring.py::test_the_version_in_force_on_a_day_decides_the_plan
+- file: habit_coach/tracker.py
+  label: an excused day breaks a streak
+  find: 'elif result.status in ("excused", "pending"):'
+  replace: 'elif result.status == "pending":'
+  test: tests/test_plan_logs_scoring.py::test_streak_skips_excused_days_stops_at_a_miss_and_ignores_pending_today
+- file: habit_coach/review.py
+  label: exactly half done counts as failing
+  find: 'if habit.scored and rate < REDUCE_BELOW:'
+  replace: 'if habit.scored and rate <= REDUCE_BELOW:'
+  test: tests/test_review.py::test_exactly_half_done_is_not_a_failing_habit
+- file: habit_coach/review.py
+  label: a keystone can have a day dropped
+  find: 'elif not habit.keystone and len(habit.days) > MIN_DAYS and stats.misses_by_weekday:'
+  replace: 'elif len(habit.days) > MIN_DAYS and stats.misses_by_weekday:'
+  test: tests/test_review.py::test_a_small_failing_habit_loses_its_worst_day_but_a_keystone_is_only_flagged
+- file: habit_coach/review.py
+  label: the day dropped is the best one, not the worst
+  find: 'worst = max(stats.misses_by_weekday, key=lambda d: (stats.misses_by_weekday[d], d))'
+  replace: 'worst = min(stats.misses_by_weekday, key=lambda d: (stats.misses_by_weekday[d], d))'
+  test: tests/test_review.py::test_a_small_failing_habit_loses_its_worst_day_but_a_keystone_is_only_flagged
+- file: habit_coach/review.py
+  label: the weekly cap on changes is ignored
+  find: return ordered[:cap] + flags, ordered[cap:]
+  replace: return ordered + flags, []
+  test: tests/test_review.py::test_the_weekly_cap_defers_the_rest_but_never_hides_a_flag
+- file: habit_coach/review.py
+  label: small drift moves the plan
+  find: abs(stats.median_offset) >= SHIFT_MIN_OFFSET
+  replace: abs(stats.median_offset) >= 0
+  test: tests/test_review.py::test_small_drift_is_left_alone
+- file: habit_coach/review.py
+  label: a hard week still raises the load
+  find: overall is not None and overall >= LEVEL_UP_MIN_OVERALL and
+  replace: overall is not None and
+  test: tests/test_review.py::test_no_level_up_in_a_week_that_was_hard_overall
+- file: habit_coach/review.py
+  label: every strong habit levels up at once
+  find: + shifts + levels[:1]
+  replace: + shifts + levels
+  test: tests/test_review.py::test_three_strong_weeks_raise_one_habit_by_five_minutes
+- file: habit_coach/review.py
+  label: a stale proposal is applied anyway
+  find: '            if habit.duration_min != p.old:'
+  replace: '            if False:'
+  test: tests/test_review.py::test_a_stale_proposal_is_refused_rather_than_guessed_at
+- file: habit_coach/calendar_export.py
+  label: an event is one minute too long
+  find: end=start + timedelta(minutes=habit.duration_min),
+  replace: end=start + timedelta(minutes=habit.duration_min + 1),
+  test: tests/test_calendar_nudge_i18n.py::test_the_json_export_carries_what_the_connector_needs
+- file: habit_coach/calendar_export.py
+  label: a UID is the same every day, so re-importing overwrites the week
+  find: uid=f"{habit.id}-{day:%Y%m%d}@{UID_DOMAIN}",
+  replace: uid=f"{habit.id}@{UID_DOMAIN}",
+  test: tests/test_calendar_nudge_i18n.py::test_ics_is_valid_enough_for_google_calendar
+- file: habit_coach/calendar_export.py
+  label: continuation lines overflow 75 octets
+  find: limit = 75 if not pieces else 74
+  replace: limit = 75
+  test: tests/test_calendar_nudge_i18n.py::test_folding_never_splits_a_multibyte_character
+- file: habit_coach/calendar_export.py
+  label: times are written in local time but labelled UTC
+  find: return moment.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+  replace: return moment.strftime("%Y%m%dT%H%M%SZ")
+  test: tests/test_calendar_nudge_i18n.py::test_ics_is_valid_enough_for_google_calendar
+- file: habit_coach/calendar_export.py
+  label: the reminder fires after the event
+  find: f"TRIGGER:-PT{event.reminder_min}M",
+  replace: f"TRIGGER:PT{event.reminder_min}M",
+  test: tests/test_calendar_nudge_i18n.py::test_ics_is_valid_enough_for_google_calendar
+- file: habit_coach/nudge.py
+  label: a never-miss-twice nudge is never sent
+  find: "        if comeback:\n            return build(\"comeback\", comeback)"
+  replace: "        if False:\n            return build(\"comeback\", comeback)"
+  test: tests/test_calendar_nudge_i18n.py::test_a_missed_habit_gets_a_never_miss_twice_nudge_the_next_day
+- file: habit_coach/cli.py
+  label: a 00:15 backfill lands on the evening before instead of after midnight
+  find: "            if small_hours:\n                ts += timedelta(days=1)         # 00:30 on a given logical day is the small hours after it\n"
+  replace: ''
+  test: tests/test_cli.py::test_a_late_night_entry_belongs_to_the_evening_before
+- file: habit_coach/cli.py
+  label: a time in the future is accepted
+  find: "    if ts > now + timedelta(minutes=5):\n        raise UsageError("
+  replace: "    if False:\n        raise UsageError("
+  test: tests/test_cli.py::test_mistakes_are_refused_with_a_message_and_a_nonzero_exit
+- file: habit_coach/render.py
+  label: a rewritten review loses the notes written under it
+  find: path.write_text(head + block.rstrip("\n") + tail, encoding="utf-8")
+  replace: path.write_text(block, encoding="utf-8")
+  test: tests/test_cli.py::test_review_write_and_apply_make_next_weeks_plan_and_keep_the_notes
+- file: habit_coach/cli.py
+  label: a bedtime said the next morning is logged in the future
+  find: '                ts -= timedelta(days=1)
+
+    '
+  replace: '                pass
+
+    '
+  test: tests/test_cli.py::test_a_small_hours_time_said_in_the_morning_means_the_night_just_gone
+- file: habit_coach/cli.py
+  label: an absurd date is accepted and overflows later
+  find: "    if not MIN_YEAR <= day.year <= MAX_YEAR:\n        raise UsageError(tr.t(\"err.bad_date\", value=value))\n    return day\n"
+  replace: '    return day
+
+    '
+  test: tests/test_cli.py::test_nonsense_input_is_a_message_not_a_traceback
+- file: habit_coach/cli.py
+  label: an absurd ISO week is accepted and overflows later
+  find: "    if not MIN_YEAR <= day.year <= MAX_YEAR:\n        raise UsageError(tr.t(\"err.bad_week\", value=value))\n    return day\n"
+  replace: '    return day
+
+    '
+  test: tests/test_cli.py::test_nonsense_input_is_a_message_not_a_traceback
+- file: habit_coach/cli.py
+  label: the export length is not bounded
+  find: '    if not 1 <= weeks <= MAX_EXPORT_WEEKS:'
+  replace: '    if False:'
+  test: tests/test_cli.py::test_nonsense_input_is_a_message_not_a_traceback
+- file: habit_coach/cli.py
+  label: --weeks 0 silently becomes the default
+  find: weeks = profile.weeks_ahead if a.weeks is None else a.weeks
+  replace: weeks = a.weeks or profile.weeks_ahead
+  test: tests/test_cli.py::test_nonsense_input_is_a_message_not_a_traceback
+- file: habit_coach/logs.py
+  label: a log that is not UTF-8 crashes with a traceback
+  find: "    except UnicodeDecodeError as exc:\n        raise ConfigError(f\"{path.relative_to(root)}: not valid UTF-8 ({exc.reason})\") from exc"
+  replace: "    except ZeroDivisionError as exc:\n        raise ConfigError('x') from exc"
+  test: tests/test_cli.py::test_files_that_are_not_utf8_are_reported_cleanly
+- file: habit_coach/config.py
+  label: a plan that is not UTF-8 crashes with a traceback
+  find: '    except (yaml.YAMLError, UnicodeDecodeError) as exc:'
+  replace: '    except yaml.YAMLError as exc:'
+  test: tests/test_cli.py::test_files_that_are_not_utf8_are_reported_cleanly
+- file: habit_coach/cli.py
+  label: review with no week reviews the empty current week on Monday
+  find: target = None if a.week or a.date else review_due_day(tracker, now)
+  replace: target = None
+  test: tests/test_cli.py::test_review_with_no_week_reviews_the_week_that_is_owed
+- file: habit_coach/cli.py
+  label: a nudge that asserts something false can be forced
+  find: choices=FORCEABLE_KINDS,
+  replace: choices=FORCEABLE_KINDS + ("comeback",),
+  test: tests/test_cli.py::test_moments_that_assert_something_cannot_be_forced
+- file: habit_coach/cli.py
+  label: a plan version clash is shown as raw English
+  find: "    except PlanVersionError as exc:\n        raise UsageError(tr.t(\"err.version_not_later\", current=exc.current.isoformat(), requested=exc.requested.isoformat())) from None"
+  replace: "    except PlanVersionError as exc:\n        raise UsageError(str(exc)) from None"
+  test: tests/test_cli.py::test_a_plan_version_clash_is_explained_in_the_owners_language
+- file: habit_coach/render.py
+  label: drop_day passes habit twice and the review crashes
+  find: "    params = {**p.reason, \"habit\": p.habit_name, \"old\": p.old, \"new\": p.new}\n    if p.kind == \"drop_day\":\n        params[\"day\"] = tr.t(f\"weekday.{p.old}\")\n    return tr.t(f\"review.proposal.{p.kind}\"\
+    , **params)"
+  replace: "    if p.kind == \"drop_day\":\n        return tr.t(\"review.proposal.drop_day\", habit=p.habit_name, day=tr.t(f\"weekday.{p.old}\"), **p.reason)\n    params = {**p.reason, \"habit\": p.habit_name,\
+    \ \"old\": p.old, \"new\": p.new}\n    return tr.t(f\"review.proposal.{p.kind}\", **params)"
+  test: tests/test_cli.py::test_a_review_that_drops_a_day_renders_in_every_language_and_applies
+- file: habit_coach/render.py
+  label: a review with no narrative counts as done
+  find: '    return path.exists() and NOTES_PENDING not in path.read_text(encoding="utf-8")'
+  replace: '    return path.exists()'
+  test: tests/test_cli.py::test_a_review_is_owed_until_its_narrative_is_written_and_for_three_days
+- file: habit_coach/render.py
+  label: the reminder lasts only the Monday
+  find: '    elif today.weekday() < REVIEW_GRACE_DAYS:'
+  replace: '    elif today.weekday() == 0:'
+  test: tests/test_cli.py::test_a_review_is_owed_until_its_narrative_is_written_and_for_three_days
+- file: habit_coach/cli.py
+  label: a double send writes two entries
+  find: "    if twin is None:\n        logs.append_event(tracker.root, profile, event)"
+  replace: "    if True:\n        logs.append_event(tracker.root, profile, event)"
+  test: tests/test_cli.py::test_the_same_words_in_the_same_minute_are_one_entry
+- file: habit_coach/cli.py
+  label: nested subcommand help falls back to English
+  find: "        nested = plan_sub.add_parser(name, help=t(f\"cmd.plan_{name.replace('-', '_')}\"), add_help=False)\n        nested.add_argument(\"-h\", \"--help\", action=\"help\", help=t(\"arg.help\"\
+    ))"
+  replace: '        nested = plan_sub.add_parser(name, help=t(f"cmd.plan_{name.replace(''-'', ''_'')}"))'
+  test: tests/test_cli.py::test_help_of_nested_subcommands_is_localized_too

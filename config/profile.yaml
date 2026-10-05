@@ -1,0 +1,18 @@
+# Who the plan is for. Everything here is yours to change; ask Claude or edit the file.
+
+language: vi              # vi | ja | en  (python3 habit.py --lang ja ... overrides per command)
+timezone: Asia/Tokyo      # IANA name. CHANGE THIS if you do not live in Japan: every logged time uses it.
+day_cutoff_hour: 4        # a day ends at 04:00, so a 00:30 bedtime still belongs to the evening before
+
+# Sunday review and motivation
+max_plan_changes_per_week: 3   # a few edits a week; more than that and the plan stops feeling like yours
+reward_pct: 80                 # weekly adherence at or above this unlocks a reward from the list below
+struggling_pct: 60             # below this the week counts as a hard one: the review gets gentler
+identity: "Mình là người giữ lời hứa với chính mình"   # who you are becoming, in your own words
+why: ""                        # why this matters to you; Claude asks during onboarding and keeps it here
+rewards: []                    # e.g. ["a good coffee", "an evening off", "a small treat"] — pick things you actually want
+
+# Calendar export
+calendar_name: "Habit Coach"   # use a dedicated calendar so a regenerated file never touches your real events
+reminder_min: 10               # popup this many minutes before each block (a habit can set its own reminder_min)
+weeks_ahead: 2                 # how many weeks `habit.py ics` exports by default

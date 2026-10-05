@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: python -m pip install -r requirements-dev.txt
+      - name: Lint (errors and unused imports)
+        run: flake8 . --select=E9,F63,F7,F82,F401,F811,F841 --show-source --statistics
+      - name: Tests
+        run: python -m pytest -q
+      - name: Mutation check (the tests fail when the behavior breaks)
+        run: python scripts/mutation_check.py --all
+      - name: Catalog parity (ja, en, vi)
+        run: python scripts/i18n_check.py --require ja,en,vi
+      - name: Repository layout
+        run: python scripts/layout_check.py

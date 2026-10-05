@@ -1,0 +1,4 @@
+# Logs are append-only: when two branches both appended to the same day, keep both sets of lines.
+# (read_day collapses a line that appears twice, so a union merge never double-counts.)
+logs/**/*.jsonl merge=union
+*.ics text eol=crlf
