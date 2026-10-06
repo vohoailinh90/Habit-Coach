@@ -37,9 +37,8 @@ python3 habit.py --lang ja today             # đổi ngôn ngữ: vi, ja, en
 
 ## Google Calendar
 
-- **Cách tốt nhất:** kết nối Google Calendar cho Claude (claude.ai → Settings → Connectors → Google Calendar). Claude sẽ tạo thẳng các khối giờ, kèm chuông nhắc, vào một lịch riêng tên *Habit Coach*, và cập nhật mỗi Chủ nhật.
-- **Chưa kết nối:** chạy `python3 habit.py ics`, rồi vào Google Calendar → Cài đặt → Nhập & xuất → Nhập `calendar/habit-coach.ics` vào lịch riêng *Habit Coach*. Mỗi sự kiện có mã cố định nên nhập lại sẽ cập nhật chứ không nhân đôi; thói quen đã bỏ khỏi kế hoạch thì cần xóa tay.
-- Nên dùng **lịch riêng** để không đụng vào lịch thật của bạn.
+- **Cách đang dùng:** Google Calendar đã được kết nối. Mỗi thói quen là một chuỗi sự kiện lặp hằng tuần, nằm trong đúng lịch phân loại của bạn (Exercise, Reading Book, Study, Work, Transport, Personal), kèm chuông nhắc 10 phút trước. Sự kiện do Claude tạo luôn bắt đầu phần mô tả bằng `[habit-coach:<mã>]`; `calendar/gcal-map.json` ghi lại mã sự kiện để cập nhật mỗi Chủ nhật mà không nhân đôi.
+- **Nếu mất kết nối:** chạy `python3 habit.py ics`, rồi vào Google Calendar → Cài đặt → Nhập & xuất → Nhập `calendar/habit-coach.ics`. Mỗi sự kiện có mã cố định nên nhập lại sẽ cập nhật chứ không nhân đôi; thói quen đã bỏ khỏi kế hoạch thì cần xóa tay.
 
 ## Lời nhắc tự động (tùy chọn)
 

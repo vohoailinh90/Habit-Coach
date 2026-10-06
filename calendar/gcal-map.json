@@ -1,0 +1,97 @@
+{
+  "note": "Maps each plan habit to the recurring Google Calendar series Claude created for it (2026-10-06). Every event description starts with [habit-coach:<habit id>]; never touch an event without that marker.",
+  "mode": "one recurring series per habit, in the owner's own category calendar",
+  "timezone": "Asia/Tokyo",
+  "series": {
+    "prepare-work": {
+      "calendar": "Transport",
+      "calendarId": "f02122fefb257544e400a9ae54b429fef35df8827a6dace5967c3c020c21f1f6@group.calendar.google.com",
+      "eventId": "nl2a4c9tkhlv0ursbf08ope5og"
+    },
+    "start-work": {
+      "calendar": "Work",
+      "calendarId": "d44ad57658c2075e3783645d5a930734934c3dda7095038da34695201a726391@group.calendar.google.com",
+      "eventId": "pt94igjllsplllf6ud595jk2s4"
+    },
+    "return-home": {
+      "calendar": "Transport",
+      "calendarId": "f02122fefb257544e400a9ae54b429fef35df8827a6dace5967c3c020c21f1f6@group.calendar.google.com",
+      "eventId": "96lhbj423g87oqf5q37fkpetb0"
+    },
+    "ai-study": {
+      "calendar": "Study",
+      "calendarId": "159056c60b6d732d659b20b5473fa92cbdc9ce6689191b17879b4286f24ef3a1@group.calendar.google.com",
+      "eventId": "91p2su1r28aq79keev7tnlr5lo"
+    },
+    "english": {
+      "calendar": "Study",
+      "calendarId": "159056c60b6d732d659b20b5473fa92cbdc9ce6689191b17879b4286f24ef3a1@group.calendar.google.com",
+      "eventId": "in6rc3i9r4jc6p11lkjulai3fc"
+    },
+    "japanese-class": {
+      "calendar": "Study",
+      "calendarId": "159056c60b6d732d659b20b5473fa92cbdc9ce6689191b17879b4286f24ef3a1@group.calendar.google.com",
+      "eventId": "p0f41iekdn15l9vlh3j8ifr650"
+    },
+    "gym": {
+      "calendar": "Exercise",
+      "calendarId": "b60a7a8d433a03c2107529021a8f467c27b96b6cc7ce67987cd365dfd10aa2f6@group.calendar.google.com",
+      "eventId": "mrg8t43n2jgvmv974ph2a2drms"
+    },
+    "workout-late": {
+      "calendar": "Exercise",
+      "calendarId": "b60a7a8d433a03c2107529021a8f467c27b96b6cc7ce67987cd365dfd10aa2f6@group.calendar.google.com",
+      "eventId": "q8llno3lj64qrtg851q8iur2gc"
+    },
+    "reading": {
+      "calendar": "Reading Book",
+      "calendarId": "39bac60a4559df670e55c047d0f5990490fe72d6b6853ca35659cbc5a93157c6@group.calendar.google.com",
+      "eventId": "l1rpffd2s7u7hs5fpjr7to89ac"
+    },
+    "reading-late": {
+      "calendar": "Reading Book",
+      "calendarId": "39bac60a4559df670e55c047d0f5990490fe72d6b6853ca35659cbc5a93157c6@group.calendar.google.com",
+      "eventId": "qhjoitu3rrli5a1jaaqcrqb3so"
+    },
+    "shower": {
+      "calendar": "Personal",
+      "calendarId": "vohoailinh90@gmail.com",
+      "eventId": "8190mbg3uf5n527acrbm39rp7s"
+    },
+    "shower-late": {
+      "calendar": "Personal",
+      "calendarId": "vohoailinh90@gmail.com",
+      "eventId": "6apev7eiti4r2iut2rrtknsv98"
+    },
+    "call-wife": {
+      "calendar": "Personal",
+      "calendarId": "vohoailinh90@gmail.com",
+      "eventId": "9u5qegkholtcv8i6jeo71eqd80"
+    },
+    "call-wife-late": {
+      "calendar": "Personal",
+      "calendarId": "vohoailinh90@gmail.com",
+      "eventId": "s6vcrrhrc5g3ufba53kl5k5shc"
+    }
+  },
+  "removed_by_owner_choice": [
+    {
+      "when": "2026-10-06",
+      "why": "overlapped the new shower/English times; replaced by the new plan",
+      "summary": "StatQuest AI",
+      "calendar": "Reading Book",
+      "calendarId": "39bac60a4559df670e55c047d0f5990490fe72d6b6853ca35659cbc5a93157c6@group.calendar.google.com",
+      "was": "weekdays 21:00-21:30 Asia/Tokyo, popup 10 min, series created 2026-05-17",
+      "eventId": "1eua89tgk6aro6vhtub4la3fpr"
+    },
+    {
+      "when": "2026-10-06",
+      "why": "overlapped the new shower/English times; replaced by the new plan",
+      "summary": "AI tool (Claude AI)",
+      "calendar": "Study",
+      "calendarId": "159056c60b6d732d659b20b5473fa92cbdc9ce6689191b17879b4286f24ef3a1@group.calendar.google.com",
+      "was": "weekdays 21:30-22:00 Asia/Tokyo, popup 10 min, series created 2026-05-17",
+      "eventId": "6oss7tdkmlu6icu05hh6f8gn5v"
+    }
+  ]
+}
