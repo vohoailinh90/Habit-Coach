@@ -2,3 +2,5 @@
 {"id": "9cadf7c8", "ts": "2026-10-07T08:16:00+09:00", "kind": "start", "habit": "morning-workout", "text": "có tập thể dục nhẹ", "tiny": true, "logged_at": "2026-10-07T08:16:20.469246+09:00"}
 {"id": "6d0abf12", "ts": "2026-10-07T08:16:00+09:00", "kind": "note", "text": "làm tí công việc buổi sáng ở nhà", "logged_at": "2026-10-07T08:16:20.599991+09:00"}
 {"id": "6975978e", "ts": "2026-10-07T08:16:00+09:00", "kind": "start", "habit": "prepare-work", "text": "giờ bắt tàu lên công ty, hôm nay có họp lúc 9 giờ nên phải đi sớm", "logged_at": "2026-10-07T08:16:20.749114+09:00"}
+{"id": "c45c7324", "ts": "2026-10-07T08:39:00+09:00", "kind": "skip", "habit": "breakfast", "text": "định lên công ty ăn sáng nhưng công ty đóng cửa, nên nhịn đói luôn", "logged_at": "2026-10-07T08:39:28.930122+09:00"}
+{"id": "a503c212", "ts": "2026-10-07T08:39:00+09:00", "kind": "start", "habit": "start-work", "text": "giờ bắt đầu làm việc rồi", "logged_at": "2026-10-07T08:39:29.033425+09:00"}
