@@ -2,3 +2,5 @@
 {"id": "09e3ec22", "ts": "2026-10-06T09:16:00+09:00", "kind": "note", "text": "lên tàu và đến cổng", "logged_at": "2026-10-06T09:16:08.470612+09:00"}
 {"id": "bdd416e9", "ts": "2026-10-06T09:13:00+09:00", "kind": "start", "habit": "prepare-work", "text": "lên tàu chuyến 9:13", "logged_at": "2026-10-06T09:18:25.478510+09:00"}
 {"id": "0b61589e", "ts": "2026-10-06T09:36:00+09:00", "kind": "start", "habit": "start-work", "text": "bắt đầu làm việc", "logged_at": "2026-10-06T09:36:32.179276+09:00"}
+{"id": "23938027", "ts": "2026-10-06T21:38:00+09:00", "kind": "start", "habit": "return-home", "text": "giờ này mình mới về tới nhà nè", "logged_at": "2026-10-06T21:38:01.833324+09:00"}
+{"id": "8cd6453e", "ts": "2026-10-06T21:38:00+09:00", "kind": "skip", "habit": "japanese-class", "text": "hôm nay việc nhiều nên không thể về sớm để học", "logged_at": "2026-10-06T21:38:01.964058+09:00"}
