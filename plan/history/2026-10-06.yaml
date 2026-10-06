@@ -1,0 +1,105 @@
+# Weekly plan. Quote times ("07:30"). Prefer `python3 habit.py plan ...` and the Sunday review over hand edits.
+# First plan, built 2026-10-06 from the owner's own schedule. Habits that differ on Tue/Thu (Japanese class 20:00-21:30)
+# are separate ids with a "-late" suffix because one habit has one start time.
+effective_from: 2026-10-06
+habits:
+  # --- anchors: tracked so the review sees the real day, not part of the percentage ---
+  - id: prepare-work
+    name: Chuẩn bị đi làm
+    days: weekdays
+    start: "08:50"
+    duration_min: 40
+    scored: false
+  - id: start-work
+    name: Bắt đầu làm việc
+    days: weekdays
+    start: "09:30"
+    duration_min: 15
+    scored: false
+  - id: return-home
+    name: Về đến nhà
+    days: weekdays
+    start: "19:00"
+    duration_min: 15
+    scored: false
+  - id: japanese-class
+    name: Học tiếng Nhật với Yamashita sensei
+    days: [tue, thu]
+    start: "20:00"
+    duration_min: 90
+    scored: false
+  - id: shower
+    name: Tắm rửa
+    days: [mon, wed, fri, sat, sun]
+    start: "21:00"
+    duration_min: 30
+    scored: false
+  - id: shower-late
+    name: Tắm rửa (sau khi tập)
+    days: [tue, thu]
+    start: "22:30"
+    duration_min: 30
+    scored: false
+  - id: call-wife
+    name: Gọi điện cho vợ
+    days: [mon, wed, fri, sat, sun]
+    start: "22:30"
+    duration_min: 30
+    scored: false
+  - id: call-wife-late
+    name: Gọi điện cho vợ
+    days: [tue, thu]
+    start: "23:30"
+    duration_min: 30
+    scored: false
+  # --- scored: the three daily targets (AI 60 min, exercise 60 min, reading 30 min) plus English ---
+  - id: ai-study
+    name: Học AI
+    days: daily
+    start: "07:45"
+    duration_min: 60
+    weight: 3
+    anchor: sau khi dậy và uống nước, mở máy tính ngay
+    tiny: mở bài học AI và làm xong mục đầu tiên
+  - id: gym
+    name: Tập gym (thể dục 60 phút)
+    days: [mon, wed, fri, sat, sun]
+    start: "19:30"
+    duration_min: 60
+    weight: 3
+    keystone: true
+    anchor: về đến nhà lúc 19:00 là thay đồ tập ngay
+    tiny: thay đồ tập và tập 10 phút
+  - id: workout-late
+    name: Tập thể dục sau giờ học tiếng Nhật
+    days: [tue, thu]
+    start: "21:30"
+    duration_min: 60
+    weight: 3
+    keystone: true
+    anchor: ngay sau khi kết thúc buổi học tiếng Nhật
+    tiny: tập tại nhà 10 phút
+  - id: english
+    name: Học tiếng Anh
+    days: [mon, wed, fri, sat, sun]
+    start: "21:30"
+    duration_min: 30
+    weight: 2
+    anchor: sau khi tắm xong
+    tiny: học 5 từ mới
+  - id: reading
+    name: Đọc sách
+    days: [mon, wed, fri, sat, sun]
+    start: "22:00"
+    duration_min: 30
+    weight: 2
+    anchor: sau khi học tiếng Anh xong
+    tiny: đọc một trang
+  - id: reading-late
+    name: Đọc sách
+    days: [tue, thu]
+    start: "23:00"
+    duration_min: 30
+    weight: 2
+    anchor: sau khi tắm xong
+    tiny: đọc một trang

@@ -72,6 +72,16 @@
       "calendar": "Personal",
       "calendarId": "vohoailinh90@gmail.com",
       "eventId": "s6vcrrhrc5g3ufba53kl5k5shc"
+    },
+    "morning-workout": {
+      "calendar": "Exercise",
+      "calendarId": "b60a7a8d433a03c2107529021a8f467c27b96b6cc7ce67987cd365dfd10aa2f6@group.calendar.google.com",
+      "eventId": "399i45crkmd9srnlvn78mtq6ss"
+    },
+    "breakfast": {
+      "calendar": "Personal",
+      "calendarId": "vohoailinh90@gmail.com",
+      "eventId": "q3k78pmgnbpccfouvn947i37qg"
     }
   },
   "removed_by_owner_choice": [
