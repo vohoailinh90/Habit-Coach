@@ -21,6 +21,7 @@ If you are Claude Code or Codex working on this repository directly (a spec, an 
 Exceptions in this repository, which replace the matching rule above:
 
 - Data commits (logs/, plan/, reviews/, calendar/) are pushed to main without a pull request (CLAUDE.md "Persisting"); the pull-request process above applies to changes to the tool itself.
+- Do not start `team run` or `team-codex` on this repository while logs/, plan/, reviews/ or calendar/ hold tracked files: the worker container mounts the whole checkout (worker_argv in the team's team.py), so a coder or tester model would read the owner's daily whereabouts, which CLAUDE.md "Guardrails" forbids copying into other tools. Until the tool's code is split from that data, CLAUDE.md "No subagents" and "Changing this tool" (main session only) apply in full, and a change to the tool is made in the main session.
 
 Where this repository documents its own rule for one of these steps elsewhere (who merges, what gates a merge, how the review is requested, a cap on rounds), that rule governs that step; this process covers whatever the repository leaves unsaid.
 <!-- team-onboarding:end -->

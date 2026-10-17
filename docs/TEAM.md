@@ -45,3 +45,4 @@ Nếu chính repo này đã ghi quy tắc riêng cho một bước ở trên (ai
 ## Ghi chú riêng của repo này
 
 - Exception in this repository (replaces the matching rule above): Data commits (logs/, plan/, reviews/, calendar/) are pushed to main without a pull request (CLAUDE.md "Persisting"); the pull-request process above applies to changes to the tool itself.
+- Exception in this repository (replaces the matching rule above): Do not start `team run` or `team-codex` on this repository while logs/, plan/, reviews/ or calendar/ hold tracked files: the worker container mounts the whole checkout (worker_argv in the team's team.py), so a coder or tester model would read the owner's daily whereabouts, which CLAUDE.md "Guardrails" forbids copying into other tools. Until the tool's code is split from that data, CLAUDE.md "No subagents" and "Changing this tool" (main session only) apply in full, and a change to the tool is made in the main session.
